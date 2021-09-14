@@ -10,3 +10,5 @@ pygeohash
 psutil
 adafruit-circuitpython-ads1x15
 rtc
+socks
+sockets

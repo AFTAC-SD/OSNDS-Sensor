@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 #Import packages
+import pdb
+import socks
+import sockets
 import time
 import os
 import sys
@@ -154,8 +157,12 @@ except:
     print("Internal MQTT client failed to connect...")
 
 try:
+    pdb.set_trace()
     mqtt_ext = mqtt.Client(client_id="OSNDS Station 5", userdata=None, transport="tcp")
     mqtt_ext.username_pw_set(username="aftac", password="sensor")
+    mqtt_ext.proxy_set(proxy_type=socks.HTTP, proxy_addr='https://10.150.206.21', proxy_port=8080)
+    # socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_HTTP, addr="10.150.206.21", port=8080, rdns=True)
+    # socket.socket = socks.socksocket
     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
     mqtt_ext.tls_set_context(context)
     #mqtt_ext.tls_set(ca_certs=None,certfile=None,keyfile=None,ciphers=None)
