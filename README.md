@@ -22,3 +22,6 @@
 Added user to the docker group via
 sudo usermod -aG docker $USER
 Requires a restart or reload to see the changes
+
+Will likely also require the docker.service to start enabled, otherwise it waits for the first docker command to start up:
+systemctl enable --now docker.service
