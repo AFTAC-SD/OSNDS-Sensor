@@ -1,4 +1,4 @@
-# OSNDS-Docker
+# OSNDS-Sensor
 ## To build the image you run:
  docker build --tag osnds-sensor .
  
@@ -17,3 +17,8 @@
  ENV https_proxy=http://10.150.206.21:8080
 
  ENV http_proxy=http://10.150.206.21:8080
+
+## Other stuff
+Added user to the docker group via
+sudo usermod -aG docker $USER
+Requires a restart or reload to see the changes
