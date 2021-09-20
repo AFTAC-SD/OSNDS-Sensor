@@ -75,6 +75,13 @@ services:
     links:
     - influxdb
     - kapacitor
+  nodered:
+    image: nodered/node-red
+    container_name: nodered
+    volumes:
+    - ./nodered/:/data/.:rw
+    ports:
+    - "1880:1880/tcp"
 # networks:
 #   bridge:
 # volumes:
