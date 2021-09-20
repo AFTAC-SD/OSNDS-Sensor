@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-# version 202109240858
+# version 202109240858e3565840c3dc
 #FROM python:3.8-slim-buster
 FROM ubuntu:20.04
 # FROM nvcr.io/nvidia/l4t-base:r32.6.1
@@ -34,6 +34,8 @@ RUN pip3 install -r requirements.txt
 #RUN apt-get -y upgrade
 COPY functions.py functions.py
 COPY main.py main.py
+#RUN pip3 install docker-compose
+#RUN ln -s /usr/local/bin/dockedockr-compose /compose/docker-compose
+#COPY docker-compose.yml docker-compose.yml
 CMD [ "python3", "main.py" ]
-
 #FROM nodered/node-red
