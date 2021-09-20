@@ -1,14 +1,14 @@
 #!/usr/bin/python3
-
+#version 202109200854
 #Import packages
 import pdb
-import socks
-import sockets
+#import socks
+#import sockets
 import time
 import os
 import sys
-import board
-import busio
+#import board
+#import busio
 import json
 import ssl
 import paho.mqtt.client as mqtt
@@ -85,9 +85,15 @@ def publishMessage():
     global execution_time   #required for the first packet to be sent
     sample_time = time.time_ns()    #gets UNIX time in ns
     # x, y, z = sensor.acceleration   #gets data from the accelerometer
-    x = random()
-    y = random()
-    z = random()
+    spike_chance=random()
+    if spike_chance > 0.9995:
+     x = random()*10
+     y = random()
+     z = random()    
+    else:
+     x = random()
+     y = random()
+     z = random()
 
     data = [
         {
@@ -95,6 +101,7 @@ def publishMessage():
             "x": x,
             "y": y,
             "z": z,
+            "crit": spike_chance,
             "packet_id": packet_id,
             "delta_time":execution_time,
             "name":"osnds_station_5"
@@ -105,6 +112,9 @@ def publishMessage():
     mqtt_int.publish("local/sensor/",msg,qos=0) #publish the data to the local mqtt server
     mqtt_ext.publish("osnds/livestream/station/5/acceleration/",msg,qos=1)  #publish the data to the remote mqtt server
     packet_id = packet_id + 1
+    if packet_id >= sps:
+     packet_id = 0
+
     execution_time = time.time_ns()- sample_time    #used for troubleshooting - measures the function's execution time
 
 def on_message(client, userdata, message):
@@ -157,10 +167,10 @@ except:
     print("Internal MQTT client failed to connect...")
 
 try:
-    pdb.set_trace()
+ #   pdb.set_trace()
     mqtt_ext = mqtt.Client(client_id="OSNDS Station 5", userdata=None, transport="tcp")
     mqtt_ext.username_pw_set(username="aftac", password="sensor")
-    mqtt_ext.proxy_set(proxy_type=socks.HTTP, proxy_addr='https://10.150.206.21', proxy_port=8080)
+#    mqtt_ext.proxy_set(proxy_type=socks.HTTP, proxy_addr='https://10.150.206.21', proxy_port=8080)
     # socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_HTTP, addr="10.150.206.21", port=8080, rdns=True)
     # socket.socket = socks.socksocket
     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
