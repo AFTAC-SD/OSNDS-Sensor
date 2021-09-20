@@ -3,9 +3,9 @@ services:
   influxdb:
     image:  influxdb:1.8.9
     container_name: influxdb
-    # volumes:
-    #   - ./influxdb:/var/lib/influxdb:rw
-    #   - ./influxdb_config:/etc/influxdb:rw
+    volumes:
+      - ./influxdb:/var/lib/influxdb:rw
+      - ./influxdb_config:/etc/influxdb:rw
     ports:
       - "8086:8086/tcp"
   influxdb_cli:
@@ -13,21 +13,21 @@ services:
       - influxdb
     image: influxdb:1.8.9
     container_name: influxdb_cli
-    # volumes:
-    #   - ./influxdb:/var/lib/influxdb:rw
-    #   - ./influxdb_config:/etc/influxdb/:rw
+    volumes:
+      - ./influxdb:/var/lib/influxdb:rw
+      - ./influxdb_config:/etc/influxdb/:rw
     entrypoint: ["./entrypoint.sh"]
     restart: on-failure:10
     depends_on:
       - influxdb
   telegraf:
-    image:  telegraf2
+    image:  telegraf
     container_name: telegraf
     restart: always
     links:
       - influxdb
-    # volumes:
-    #   - ./telegraf/.:/etc/telegraf/.:rw
+    volumes:
+      - ./telegraf/.:/etc/telegraf/.:rw
     ports:
       - "8125:8125/udp"
       - "8092:8092/udp"
@@ -37,13 +37,13 @@ services:
   grafana:
     image:  grafana/grafana
     container_name: grafana
-    # volumes:
-    # - ./GF_PATHS_CONFIG/:/etc/grafana/.:rw
-    # - ./GF_PATHS_DATA/:/var/lib/grafana/.:rw
-    # - ./GF_PATHS_HOME/:/usr/share/grafana/.:rw
-    # - ./GF_PATHS_LOGS/:/var/log/grafana/.:rw
-    # - ./GF_PATHS_PLUGINS/:/var/lib/grafana/plguins/.:rw
-    # - ./GF_provisioning/:/etc/grafana/provisioning/datasources/.:rw
+    volumes:
+    - ./GF_PATHS_CONFIG/:/etc/grafana/.:rw
+    - ./GF_PATHS_DATA/:/var/lib/grafana/.:rw
+    - ./GF_PATHS_HOME/:/usr/share/grafana/.:rw
+    - ./GF_PATHS_LOGS/:/var/log/grafana/.:rw
+    - ./GF_PATHS_PLUGINS/:/var/lib/grafana/plguins/.:rw
+    - ./GF_provisioning/:/etc/grafana/provisioning/datasources/.:rw
     links: 
       - influxdb
     ports:
