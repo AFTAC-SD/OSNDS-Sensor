@@ -35,3 +35,5 @@ RUN pip3 install -r requirements.txt
 COPY functions.py functions.py
 COPY main.py main.py
 CMD [ "python3", "main.py" ]
+
+#FROM nodered/node-red
