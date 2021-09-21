@@ -15,7 +15,8 @@ import paho.mqtt.client as mqtt
 from twisted.internet import task
 from twisted.internet import reactor
 # import adafruit_lsm9ds1
-from random import random
+import random
+#import numpy as np
 os.system('clear')
 
 print(r"""
@@ -85,15 +86,15 @@ def publishMessage():
     global execution_time   #required for the first packet to be sent
     sample_time = time.time_ns()    #gets UNIX time in ns
     # x, y, z = sensor.acceleration   #gets data from the accelerometer
-    spike_chance=random()
-    if spike_chance > 0.9995:
-     x = random()*10
-     y = 5-random()
-     z = 5+random()    
-    else:
-     x = random()
-     y = 5-random()
-     z = 5+random()
+#    spike_chance=random.random()
+#    if spike_chance > 0.9995:
+#     x = np.random.normal(0,1,100)*10
+#     y = 5-np.random.normal(0,1,100)
+#     z = 5+np.random.normal(0,1,100)  
+#    else:
+    x = random.random()
+    y = 5-random.random()
+    z = 5+random.random()
 
     data = [
         {
@@ -101,7 +102,7 @@ def publishMessage():
             "x": x,
             "y": y,
             "z": z,
-            "crit": spike_chance,
+#            "crit": spike_chance,
             "packet_id": packet_id,
             "delta_time":execution_time,
             "name":"osnds_station_5"
