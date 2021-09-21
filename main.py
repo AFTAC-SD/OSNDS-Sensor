@@ -88,12 +88,12 @@ def publishMessage():
     spike_chance=random()
     if spike_chance > 0.9995:
      x = random()*10
-     y = random()
-     z = random()    
+     y = 5-random()
+     z = 5+random()    
     else:
      x = random()
-     y = random()
-     z = random()
+     y = 5-random()
+     z = 5+random()
 
     data = [
         {
