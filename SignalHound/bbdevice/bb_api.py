@@ -111,7 +111,7 @@ bbFetchTrace_32f.argtypes = [
     numpy.ctypeslib.ndpointer(numpy.float32, ndim=1, flags='C'),
     numpy.ctypeslib.ndpointer(numpy.float32, ndim=1, flags='C')
 ]
-bbFetchTrace = bblib.bbFetchTrace
+bbFetchTrace = bblib.bbFetchTrace # TODO: @stroup - requires rework w/ 32-bit DLL to 64 bit DLL
 bbFetchTrace.argtypes = [
     c_int,
     c_int,
