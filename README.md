@@ -25,3 +25,10 @@ Requires a restart or reload to see the changes
 
 Will likely also require the docker.service to start enabled, otherwise it waits for the first docker command to start up:
 systemctl enable --now docker.service
+
+you cannot do the fast curl install on arm64 chipsets like xavier, it is unsupported.  you have to perform the following:
+apt-get install -y python-dev
+apt-get install -y python3-dev
+apt install python-pip
+apt install python3-pip
+pip3 install docker-compose
