@@ -5,19 +5,13 @@
 ######  OSNDS Plugin for the SignalHound BB60C   #######
 ######  Real-time Spectrum Analyzer              #######
 ######  IQ Streaming Plugin v0.0.1               #######
+######                                           #######
+######  Written by: Jim Stroup, Chief, SIME      #######
+######                                           #######
 ########################################################
 ########################################################
-#
-# Written by:  Jim Stroup, AFTAC/SIME
-#              Branch Chief, Exploitation and Development
-#
-# Leveraging the awesome work by pyVISA and SignalHound
-#
-# Authored 2021-09-21
-#
 
 
-# import packages
 from bbdevice.bb60c_functions import * 
 import os
 
@@ -28,14 +22,8 @@ print('''
 ###  OSNDS SignalHound BB60C Plugin (Sweep/FFT Processing Plugin)
 ###
 ###  Please ensure you have an active "Spike" terminal open or else this script will not work.
-###
-###  Currently, this plugin has only been tested to stream IQ data at ~10 kHz. 
-###  The use of this plugin for anything greater than 10 kHz is not advised.
-###
-###  Please contact Jim Stroup for questions.
 ###  
 ############################################################################################\n''')
-
 
 bb60c = initialize_connection(
 			adapter = 'TCPIP0',
