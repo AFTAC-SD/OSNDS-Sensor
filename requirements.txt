@@ -1,7 +1,6 @@
 paho-mqtt
 twisted
 adafruit-blinka
-board
 adafruit-circuitpython-icm20x
 termcolor
 numpy
@@ -13,3 +12,4 @@ adafruit-circuitpython-bme680
 rtc
 socks
 sockets
+pympler

@@ -287,9 +287,17 @@ def services_startup():
 
     #Initialize the I2C bus.
     try:
+        print('board')
+        print(board)
+        print('board.SCL')
+        print(board.SCL)
+        print(board.SDA)
+        print(busio)
         i2c = busio.I2C(board.SCL, board.SDA)
+        print('setup successful')
         if debug: print(colored('i2c initialized successfully ...','green'))
     except:
+        print('setup NOT successful')
         if debug: print(colored('[!] i2c failed to initialize...','red'))
         if debug: time.sleep(1)
     if debug: time.sleep(1)

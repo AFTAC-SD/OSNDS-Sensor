@@ -25,9 +25,11 @@ COPY requirements.txt requirements.txt
 #RUN conda install pip
 RUN apt-get install -y python-dev
 RUN apt-get install -y python3-dev
+RUN apt-get install -y python3-pip
+RUN pip3 install --upgrade setuptools
 RUN apt install -y build-essential
 RUN apt-get install -y libssl-dev
-RUN apt install -y pip
+# RUN apt install -y pip
 RUN pip3 install service_identity
 RUN pip3 install -r requirements.txt
 #RUN apt-get -y update
