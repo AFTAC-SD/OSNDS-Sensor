@@ -9,6 +9,7 @@ sparkfun-qwiic-titan-gps
 pygeohash
 psutil
 adafruit-circuitpython-ads1x15
+adafruit-circuitpython-bme680
 rtc
 socks
 sockets

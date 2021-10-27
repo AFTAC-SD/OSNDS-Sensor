@@ -34,6 +34,7 @@ RUN pip3 install -r requirements.txt
 #RUN apt-get -y upgrade
 COPY functions.py functions.py
 COPY main.py main.py
+COPY subs.py subs.py
 #RUN pip3 install docker-compose
 #RUN ln -s /usr/local/bin/dockedockr-compose /compose/docker-compose
 #COPY docker-compose.yml docker-compose.yml
