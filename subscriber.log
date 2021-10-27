@@ -1,0 +1,959 @@
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 111, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 111, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 111, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 807, in create_connection
+    raise err
+  File "/usr/lib/python3.8/socket.py", line 796, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 113, in <module>
+    mqtt_ext.on_connect=on_connect
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 146, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+  File "/home/oasis/Desktop/client_subscribe.py", line 80
+    else if mqtt_dict['sps']!=0:
+         ^
+SyntaxError: invalid syntax
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 148, in <module>
+    mqtt_ext.tls_set_context(context)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 151, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 216, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1181, in loop
+    rc = self.loop_read(max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1572, in loop_read
+    rc = self._packet_read()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 2310, in _packet_read
+    rc = self._packet_handle()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 2936, in _packet_handle
+    return self._handle_publish()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3216, in _handle_publish
+    self._handle_on_message(message)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3444, in _handle_on_message
+    self.on_message(self, self._userdata, message)
+  File "/home/oasis/Desktop/client_subscribe.py", line 195, in on_message
+    updateJSON(mqtt_dict) # send dictionary to be saved to non-volatile storage
+  File "/home/oasis/Desktop/client_subscribe.py", line 124, in updateJSON
+    if mqtt_dict['sps']==-1 or static_file_dict['sps']==mqtt_dict['sps']:
+KeyError: 'sps'
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: 
+cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/value: Directory nonexistent
+
+                                                                               sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 235, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 1: cannot create /sys/class/gpio/gpio194/direction: Directory nonexistent
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 236, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 234, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 234, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 245, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 245, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/client_subscribe.py", line 243, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 245, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 243, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 246, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 246, in <module>
+    mqtt_ext.loop_forever() #start loop to process received messages
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1779, in loop_forever
+    rc = self.loop(timeout, max_packets)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1167, in loop
+    socklist = select.select(rlist, wlist, [], timeout)
+KeyboardInterrupt
+
+sh: echo: I/O error
+
+  File "/home/oasis/Desktop/subs.py", line 135
+    os.system('{}{}{}'.format('echo 255 > /sys/devices/pwm-fan/target_pwm && sleep ', mqtt_dict['sensor_tap'] ,'echo 0 > /sys/devices/pwm-fan/target_pwm &'))
+    ^
+IndentationError: unexpected indent
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1104, in reconnect
+    sock.do_handshake()
+  File "/usr/lib/python3.8/ssl.py", line 1309, in do_handshake
+    self._sslobj.do_handshake()
+socket.timeout: _ssl.c:1091: The handshake operation timed out
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: 
+echo: I/O error
+
+
+sh: 
+echo: I/O error
+
+
+sh: echo: I/O error
+
+sh: 
+echo: I/O error
+
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: 
+echo: I/O error
+
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: echo: I/O error
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: 
+echo: I/O error
+
+
+Traceback (most recent call last):
+  File "/home/oasis/Desktop/subs.py", line 247, in <module>
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 941, in connect
+    return self.reconnect()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 1075, in reconnect
+    sock = self._create_socket_connection()
+  File "/usr/local/lib/python3.8/dist-packages/paho/mqtt/client.py", line 3546, in _create_socket_connection
+    return socket.create_connection(addr, source_address=source, timeout=self._keepalive)
+  File "/usr/lib/python3.8/socket.py", line 787, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.8/socket.py", line 914, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+sh: 
+echo: I/O error
+
+
+sh: echo: I/O error
+

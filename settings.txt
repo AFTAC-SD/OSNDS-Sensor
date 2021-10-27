@@ -1,0 +1,1 @@
+{"settings": {"station_number": 1, "sps": 200, "fan_speed": 0}}
