@@ -488,10 +488,10 @@ def publishMessage():
 
     if debug:print(colored("getting adc data","green"))
     # single ended adc
-    adc = AnalogIn(device_list.ads, ADS.P0)
+    # adc = AnalogIn(device_list.ads, ADS.P0)
 
     # differential adc
-    # adc = AnalogIn(device_list.ads, ADS.P0, ADS.P1)
+    adc = AnalogIn(device_list.ads, ADS.P0, ADS.P1)
 
     # if debug:print(colored("adc data is","yellow"))
     # if debug:print(colored(str(adc.value), str(adc.voltage),"yellow"))        
