@@ -1,357 +1,84 @@
 #!/usr/bin/python3
-
+#version 202109200854
 #Import packages
+import pdb
+#import socks
+#import sockets
 import time
-from time import mktime
 import os
 import sys
-import board
-import busio
-import adafruit_icm20x
+#import board
+#import busio
 import json
 import ssl
 import paho.mqtt.client as mqtt
 from twisted.internet import task
 from twisted.internet import reactor
-from termcolor import colored
+# import adafruit_lsm9ds1
+import random
 import numpy as np
-import json
-import subprocess
-import qwiic_titan_gps
-from datetime import datetime
-import functions as fp
-import pygeohash as pgh
-import psutil
-from datetime import datetime
-import argparse
-import adafruit_ads1x15.ads1015 as ADS
-from adafruit_ads1x15.analog_in import AnalogIn
-from adafruit_ads1x15.ads1x15 import Mode
-# import adafruit_ds3231
-# import rtc
-import adafruit_bme680
+os.system('clear')
+import pylops
+print(r"""
+   ____  _____ _   ______  _____    _____ _______   _______ ____  ____
+  / __ \/ ___// | / / __ \/ ___/   / ___// ____/ | / / ___// __ \/ __ \
+ / / / /\__ \/  |/ / / / /\__ \    \__ \/ __/ /  |/ /\__ \/ / / / /_/ /
+/ /_/ /___/ / /|  / /_/ /___/ /   ___/ / /___/ /|  /___/ / /_/ / _, _/
+\____//____/_/ |_/_____//____/   /____/_____/_/ |_//____/\____/_/ |_|
 
-from pympler import summary
-# tracker = SummaryTracker()
-from pympler import muppy
-
-
-#system variables class
-class system_vars():
-    time = time.time()
-    station_name = "osnds_station_1"
-
-class hardware_stats():
-    cpu_time=0
-    mem_percent=0
-    disk_usage=0
-    packet_drops=0
-    cpu_load=0
-
-class device_list():
-    sensor = None
-    qwiicGPS= None
-    ads= None
-    bme680= None
-    temperature_offset= None
-
-class location_info():
-    lat = 0
-    lon = 0
-    geohash = ''
-
-# Agrument parsing section
-parser = argparse.ArgumentParser()
-parser.add_argument('--debug', type=bool, default=False, help='enable verbose debugging with slow processing')
-opt = parser.parse_args()
-debug=opt.debug
-station_name = system_vars.station_name
-
-# if debug: print(r"""
-# ____  _____ _   ______  _____    _____ _______   _______ ____  ____ 
-# / __ \/ ___// | / / __ \/ ___/   / ___// ____/ | / / ___// __ \/ __ \
-# / / / /\__ \/  |/ / / / /\__ \    \__ \/ __/ /  |/ /\__ \/ / / / /_/ /
-# / /_/ /___/ / /|  / /_/ /___/ /   ___/ / /___/ /|  /___/ / /_/ / _, _/ 
-# \____//____/_/ |_/_____//____/   /____/_____/_/ |_//____/\____/_/ |_|  
-                                                                    
-# """)
+""")
 
 #Initialize global variables
 global packet_id
 global execution_time
 
-
-
-
 #Pass initial states to global variables
-packet_id = 0
+packet_id = 1
 execution_time = 0
-sample_rate = 0
-station_number = 0
-lat=0
-lon=0
-time_gps=0
+
+# with open('/home/pi/Desktop/settings.txt') as w:
+#   data = json.load(w)
+
+# sps = data['settings'][0]['sample_rate']
+sps = 200
+print("Setting initial sample rate of",sps,"sps")
+sample_rate = 1/sps
+station_number = 5
 
 
+if os.system('systemctl is-active telegraf --quiet') == 0:
+    print("telegraf consumer is online...")
+else:
+    print("[!] telegraf consumer is inactive...")
 
-def get_hardware_status():
-    try:
-        # if debug: print(colored('getting hardware status','yellow'))
-        # if debug: time.sleep(1)
+if os.system('systemctl is-active influxdb --quiet') == 0:
+    print("influxdb storage is online...")
+else:
+    print("[!] influxdb storage is inactive...")
 
-        hardware_stats.cpu_time = (psutil.cpu_times().user)
-        # cpu_time = 0
-        # if debug: print(colored('cpu time is','yellow'))
-        # if debug: print(colored(str(cpu_time)),'yellow')
-        # if debug: time.sleep(1)
+#Initialize the I2C bus.
+try:
+    i2c = busio.I2C(board.SCL, board.SDA)
+    print("i2c initialized successfully ...")
+except:
+    print("[!] i2c failed to initialize...")
 
-        # print(dict(psutil.virtual_memory()._asdict()))
-        hardware_stats.mem_percent = (psutil.virtual_memory().percent)
-        # mem_percent = 0
-        # if debug: print(colored('mem percent is','yellow'))
-        # if debug: print(colored(str(mem_percent),'yellow')) 
-        # if debug: time.sleep(1)
-        # print(psutil.virtual_memory().available * 100 / psutil.virtual_memory().total)
-
-        # print(dict(psutil.disk_usage('/')._asdict()))
-        hardware_stats.disk_usage= (psutil.disk_usage('/').percent)
-        # disk_usage = 0
-        # if debug: print(colored('disk usage is','yellow'))
-        # if debug: print(colored(str(disk_usage),'yellow'))
-        # if debug: time.sleep(1)
-
-
-        hardware_stats.packet_drops = (psutil.net_io_counters().dropin)
-        # packet_drops = 0
-        # if debug: print(colored('packet drops are','yellow'))
-        # if debug: print(colored(str(packet_drops),'yellow'))
-        # if debug: time.sleep(1)
-        # print(psutil.net_io_counters().dropout)
-        # print(psutil.net_io_counters().errin)
-        # print(psutil.net_io_counters().errout)
-
-        hardware_stats.cpu_load = psutil.cpu_percent(interval=0.0001)
-        # cpu_load = 0
-        # if debug: print(colored('cpu load is','yellow'))
-        # if debug: print(colored(str(cpu_load),'yellow'))
-        # if debug: time.sleep(1)
-    except:
-        if debug: print(colored('health stat error','red'))
-
-
-def get_IP_info():
-    global globalIP, localIP
-    # Find IP of the reporting station
-    try:
-        globalIP=subprocess.check_output("curl ifconfig.me",shell=True)
-        globalIP=globalIP.decode("utf-8")
-    except:
-        globalIP='unable to resolve global IP'
-
-    # Find Local IP of the reporting station
-    try:
-        localIP = subprocess.check_output("hostname -I",shell=True)
-        localIP = localIP.decode("utf-8")
-        localIP = localIP[:-2]
-    except:
-        localIP = 'unable to resolve local IP'
-
-# os.system('clear')
-def setup_gpio():
-    # for utilizing LED's to display the inner-workings at-a-glance
-    # power pin needs no setup, just connect it across 5v and gnd
-
-    # cat /sys/kernel/debug/gpio
-    os.system('echo 216 > /sys/class/gpio/unexport')
-    os.system('echo 149 > /sys/class/gpio/unexport')
-    # online
-    os.system('echo 216 > /sys/class/gpio/export') #stealing LCD BL PWM pin 32
-    # time.sleep(1)
-    os.system('echo out > /sys/class/gpio/gpio216/direction') #set as output for LED
-    # streaming data out
-    os.system('echo 149 > /sys/class/gpio/export') #stealing CAM pin 29
-    # time.sleep(1)
-    os.system('echo out > /sys/class/gpio/gpio149/direction') #set as output for LED
-    return
-
-def cleanupGPIO():
-    print('Disabling GPIO pins...')
-    os.system('echo 0 > /sys/class/gpio/gpio200/value')
-    # time.sleep(1)
-    os.system('echo 216 > /sys/class/gpio/unexport')
-    # time.sleep(1)
-    os.system('echo 0 > /sys/class/gpio/gpio149/value')
-    # time.sleep(1)
-    os.system('echo 149 > /sys/class/gpio/unexport')
-    # time.sleep(1)
-
-def onlineLED(status=True):
-    if status==True:
-        os.system('echo 1 > /sys/class/gpio/gpio149/value && sleep 1 && echo 0 > /sys/class/gpio/gpio149/value &')
-    else:
-        os.system('echo 0 > /sys/class/gpio/gpio149/value')
-    return
-
-def streamingLED(status=True):
-    if status==True:
-        os.system('echo 1 > /sys/class/gpio/gpio216/value && sleep 1 && echo 0 > /sys/class/gpio/gpio216/value &')
-    else:
-        os.system('echo 0 > /sys/class/gpio/gpio216/value')
-    return
-
-def importConfig():
-    # this periodically reads the contents of the non-volatile configuration file '/home/oasis/Dekstop/settings.txt'
-    # based on those configuration parameters, the variables can be reassigned during runtime with no
-    # interruption of service
-
-    global sample_rate
-    global station_number
-    global sps
-    global data
-
-
-    # print(chr(27) + "[2J")
-
-    try: #attempt to open file
-        with open('/home/oasis/Desktop/settings.txt') as w:
-            data = json.load(w)
-        if debug: print(colored("Good file read","green")) 
-    except:
-        if debug: print(colored("Bad file read","red"))
-        if debug: time.sleep(1)
-    if debug: time.sleep(1)
-    if debug: print(colored('Reading constants...','cyan'))
-
-    try: #attempt to read sample per second
-        sps = data['settings']['sps']
-        # sps = 10
-        # print(1/sps)
-        if debug: print(colored(f'The sps read from json settings is {sps}','cyan'))
-        if sps >400 or np.isnan(sps) or sps==0:
-            sps = 200
-            if debug: print(colored('Bad sps err 1: Number out of scope, or not a number','red'))
-        else:
-            if debug: print(colored('Good sps','green'))
-    except:
-        sps = 200 #b ad read, setting to default
-        if debug: print(colored('Bad sps err 2: Value unreadable','red'))
-        if debug: time.sleep(1)
-    if debug: time.sleep(1)
-
-    try: #attempt to read sample per second
-        station_number = data['settings']['station_number']
-        if debug: print(station_number)
-        if debug: print(colored(f'The station id read from json settings is {station_number}'),'cyan')
-        if np.isnan(station_number):
-            station_number = 0
-            if debug: print(colored('Bad station_number err 1: Not a number','red'))
-        else:
-            if debug: print(colored('Good station_number','green'))
-    except:
-        station_number = 0 # bad read, setting to default
-        if debug: print(colored('Bad station_number err 2: Value unreadable','red'))
-        if debug: time.sleep(1)
-    if debug: time.sleep(1)
-
-    message = f'Setting {sps} samples per second...'
-    if debug: print(colored(message,'cyan'))
-    message = f'Setting station_number of {station_number}...'
-    if debug: print(colored(message,'cyan'))
-    sample_rate = 1/sps  # !!important step here, dont comment this out!!
-    message = f'Setting sample_rate of {sample_rate}...'
-    if debug: print(colored(message,'cyan'))
-    if debug: time.sleep(1)
-
-
-# setup_gpio() # preparing the gpio pins to drive some LED's
-importConfig() # initial configuration of the board, must read settings.txt file before proceeding
-get_IP_info()
-
-def services_startup():
-    global sensor, qwiicGPS, ads, bme680, temperature_offset
-    # checking telegraf service is active
-    if os.system('systemctl is-active telegraf --quiet') == 0:
-        if debug: print(colored('telegraf consumer is online...','green'))
-    else:
-        if debug: print(colored('[!] telegraf consumer is inactive...','red'))
-        if debug: time.sleep(1)
-    if debug: time.sleep(1)
-
-    # checking influxdb service is active
-    if os.system('systemctl is-active influxdb --quiet') == 0:
-        if debug: print(colored('influxdb storage is online...','green'))
-    else:
-        if debug: print(colored('[!] influxdb storage is inactive...','red'))
-        if debug: time.sleep(1)
-    if debug: time.sleep(1)
-
-    #Initialize the I2C bus.
-    try:
-        print('board')
-        print(board)
-        print('board.SCL')
-        print(board.SCL)
-        print(board.SDA)
-        print(busio)
-        i2c = busio.I2C(board.SCL, board.SDA)
-        print('setup successful')
-        if debug: print(colored('i2c initialized successfully ...','green'))
-    except:
-        print('setup NOT successful')
-        if debug: print(colored('[!] i2c failed to initialize...','red'))
-        if debug: time.sleep(1)
-    if debug: time.sleep(1)
-
-    #Validate the LSM9DS1 is available on the i2c bus
-    try:
-        #sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)
-        device_list.sensor = adafruit_icm20x.ICM20948(i2c)
-        #sensor.accel_range = adafruit_icm20x.ACCELRANGE_2G
-        #sensor.accel_range = adafruit_lsm9ds1.ACCELRANGE_4G
-        if debug: print(colored('adafruit_icm20x initialized successfully ...','green'))
-    except(OSError, ValueError):
-        if debug: print(colored('[!] Acceleration sensor not detected...','red'))
-        if debug: time.sleep(1)
-    if debug: time.sleep(1)
-
-    #bring the GPS online
-    try:
-        device_list.qwiicGPS = qwiic_titan_gps.QwiicTitanGps()
-        if device_list.qwiicGPS.connected is False:
-            if debug: print("Could not connect to to the SparkFun GPS Unit. Double check that\
-                it's wired correctly.", file=sys.stderr)
-        device_list.qwiicGPS.begin()
-        if debug: print(colored("XA1110 gps connected","green"))
-    except:
-        if debug: print(colored('could not connect to gps board','red'))
-        if debug: time.sleep(1)
-    if debug: time.sleep(1)
-
-    #bring the ADC online
-    try:
-        device_list.ads = ADS.ADS1015(i2c)
-        device_list.ads.mode = Mode.CONTINUOUS
-        if debug: print(colored("ADS1015 adc connected","green"))
-    except:
-        if debug: print(colored("could not connect to ADC",'red'))
-
-    #bring the RTC online
-    # try:
-    #     rtc.get_time
-    #     if debug: print(colored("rtc connected","green"))
-    # except:
-    #     if debug: print(colored("could not connect to RTC",'red')) 
-
-    try:
-        device_list.bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c, debug=False)
-        # change this to match the location's pressure (hPa) at sea level
-        device_list.bme680.sea_level_pressure = 1014
-        device_list.temperature_offset = -5
-        if debug: print(colored("temp/humid/pres connected","green"))
-    except:
-        if debug: print(colored("temp/humid/pres not connected","red"))
-
-
+# #Validate the LSM9DS1 is available on the i2c bus
+# try:
+#     sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)
+#     sensor.accel_range = adafruit_lsm9ds1.ACCELRANGE_4G
+#     sensor.mag
+#     #sensor.accel_range = adafruit_lsm9ds1.ACCELRANGE_4G
+# except(OSError, ValueError):
+#     print("[!] Acceleration sensor not detected...")
+class globalXYZ():
+    x=0
+    y=0
+    z=0
+    jump = 0
+    boomX = []
+    boomY = []
+    boomZ = []
 #Initialize the MQTT client for remote publishing
 #This is the client that is responsile for the cloud-based storage of data.
 #Data is stored in InfluxDB via a Telegraf/MQTT input plugin (see project documentation)
@@ -359,333 +86,193 @@ def services_startup():
 
 #This function acquires data from the LSM9DS1 9DOF sensor and publishes the data in an MQTT data stream
 #Please note that this function is called by the twisted.internet.task.LoopingCall function and executed by Reactor
-def publishHealth():
+def addboom():
+    #bigboom = [1,2,1,2,1]
+    par = {
+            "ox" : -200*random.random(),
+            "dx" : 5*random.random(),
+            "nx" : 201*random.random(),
+            "oy" : -100*random.random(),
+            "dy" : 5*random.random(),
+            "ny" : 101*random.random(),
+            "ot" : 0.10,
+            "dt" : 0.04*random.random(),
+            "nt" : 5010*random.random(),
+            "f0" : 10*random.random(),
+            "nfmax" : 210*random.random()
+            }
+    t, t2, x ,y = pylops.utils.seismicevents.makeaxis(par)
+    wav = pylops.utils.wavelets.ricker(np.arange(41)*par["dt"], f0=par["f0"])[0]
+    v = 15000
+    t0 = [0.2, 1.7, 6.6]
+    theta = [40, 0 , -60]
+    amp = [1.0, 0.6, -2.0]
+    mlin, mlinwav = pylops.utils.seismicevents.linear2d(x, t, v, t0, theta, amp, wav)
+    #print(len(mlin))
+    #print(len(mlinwav))
+    #print(mlin)
+    #print(type(mlinwav[0].tolist()))
+    wave = mlinwav[0].tolist()
+    #wave = list(np.asarray(list(np.asarray(wave)+100)*2)-100)
+    wave = wave * np.random.rand(len(wave))*2
+    wave = wave.tolist()
+    print(len(wave))
+    return wave
 
-    if debug: print(colored('publish health','magenta'))
-    # get_IP_info()
-    get_hardware_status()
-    sample_time = time.time_ns() 
-    if debug: print(sample_time)
-    if device_list.qwiicGPS.get_nmea_data() is True:
-            lat, lon, time_gps = device_list.qwiicGPS.gnss_messages['Latitude'], device_list.qwiicGPS.gnss_messages['Longitude'], device_list.qwiicGPS.gnss_messages['Time']
-    if debug: print('lat,lon,time_gps',lat,lon,time_gps)
+def addboom2():
+    length = random.randint(0,1000)
+    time = np.arange(0, length, 0.1)
+    amp = [0]*length*10
+    for x in range(0, random.randint(1,10)):
+        amp = np.add(amp,np.sin(time)*random.random(),np.sinc(time)*random.random())
+    print(type(amp))
+    return amp.tolist()
 
-    if lat != 0 and lon != 0:
-        location_info.lat = lat
-        location_info.lon = lon
-        location_info.geohash = pgh.encode(lat,lon)
-
-    try:
-        time_gps = time_gps.strftime("%H:%M:%S")
-    except:
-        time_gps = 0
-    if debug: print('time_gps',time_gps)
-
-
-    # geohash = 0
-    health = [
-        {   
-            "name" : station_name,
-            "region_ID" : "South_East",
-            "time" : sample_time,
-            "lat" : location_info.lat,
-            "lon": location_info.lon,
-            "time_gps" : time_gps,
-            "geohash" : location_info.geohash,
-            "global_IP" : globalIP,
-            "local_IP": localIP,
-            # "CPU_time" : hardware_stats.cpu_time,
-            # "CPU_load" : hardware_stats.cpu_load,
-            # "CPU_temp" : 0,
-            # "mem_usage" : hardware_stats.mem_percent,
-            # "disk_usage" : hardware_stats.disk_usage,
-            # "packets_dropped" : hardware_stats.packet_drops,
-            # "battery": 0,
-            # "Temperature": device_list.bme680.temperature + device_list.temperature_offset,
-            # "Gas":device_list.bme680.gas,
-            # "Humidity":device_list.bme680.relative_humidity,
-            # "Pressure":device_list.bme680.pressure,
-            # "Altitude": device_list.bme680.altitude,
-        }
-    ]
-    if debug: print("health is ", health)
-    try:
-        health_dict = fp.list2dict(health)
-    except:
-        if debug: print("Unexpected error:", sys.exc_info()[0])
-
-    try:
-        health = json.dumps(health)  #MQTT requires data to be formatted into JSON
-    except:
-        if debug: print("Unexpected error:", sys.exc_info()[0])
-        
-        # print(pos_dict['lat'], pos_dict['lon'],pos_dict['time_gps'])
-    # if int(health_dict['lat'])==0 or int(health_dict['lon'])==0:
-    #     pass
-    # else:
-    try:
-        if debug: print("trying to publish ext health")
-        mqtt_ext.publish("osnds/livestream/station/" + str(station_number) +"/health/",health,qos=0)  #publish the data to the remote mqtt server
-    except:
-        if debug: print("Unexpected error:", sys.exc_info()[0])
-
-    try:
-        if debug: print("trying to publish int health")
-        mqtt_int.publish("osnds/livestream/station/" + str(station_number) +"/health/",health,qos=0)  #publish the data to the remote mqtt server
-    except:
-        if debug: print("Unexpected error:", sys.exc_info()[0])
-
-    try:
-        del health
-    except:
-        pass
-    try:
-        del health_dict
-    except:
-        pass
-    try:
-        del geohash
-    except:
-        pass
-    try:
-        del time_gps
-    except:
-        pass
-    try:
-        del lat, lon
-    except:
-        pass
-    try:
-        del sample_time
-    except:
-        pass
-
-# def set_health_flag():
-#     global health_flag
-#     health_flag=True
 
 def publishMessage():
-    # get time from the realtime clock
-    # timevar = rtc.get_time()
-
-    #format the datetime object into the epoch time format of the required precision for grafana
-    #the formatting options 06d and 04d are to help force the epoch time to be the correct length
-    # epoch_time = int('{}{:06d}{:04d}'.format(timevar.strftime('%s'),timevar.microsecond,0))
-
-    t = time.time()
-    importConfig()
     global packet_id    #This is essentially a loop counter used to validate that packets weren't dropped and arrived in order
     global execution_time   #required for the first packet to be sent
-    global sample_rate
-    global sample_time
-
-    if mqtt_ext.is_connected():
-        if debug:print(colored("MQTT is connected is True","green"))
-        if debug: time.sleep(1)
-        # onlineLED(True)
+    sample_time = time.time_ns()    #gets UNIX time in ns
+    # x,__ y, z = sensor.acceleration   #gets data from the accelerometer
+#    spike_chance=random.random()
+#    if spike_chance > 0.9995:
+#     x = np.random.normal(0,1,100)*10
+#     y = 5-np.random.normal(0,1,100)
+#     z = 5+np.random.normal(0,1,100)  
+#    else:
+    x = globalXYZ.x + random.gauss(0, 1)/1000
+    y = globalXYZ.y + random.gauss(0, 1)/1000
+    z = globalXYZ.z + random.gauss(0, 1)/1000
+    globalXYZ.x = x
+    globalXYZ.y = y
+    globalXYZ.z = z
+    #jump = globalXYZ.jump
+    boomX = globalXYZ.boomX
+    boomY = globalXYZ.boomY
+    boomZ = globalXYZ.boomZ
+    #print(random.random())
+    if random.random() >= 0.99975:
+        #jump = jump + 3*random.random()
+        boomX = boomX + addboom()
+        boomY = boomY + addboom()
+        boomZ = boomZ + addboom()
+        #print(f'adding to boom:{boom}')
+    if len(boomX)>0:
+        tempAddX = boomX[0]
+        #print(f'before length {len(boom)}')
+        boomX.pop(0)
+        #print(f'after length {len(boom)}')
+        #print(tempAdd)
     else:
-        # onlineLED(False)
-        if debug:print(colored("MQTT is connected is False","red"))
-        if debug: time.sleep(1)
+        tempAddX = 0
 
-    if debug:print(colored("getting accel data","green"))
-    sample_time = time.time_ns() 
-    x, y, z = device_list.sensor.acceleration   #gets data from the accelerometer    # print(lat, lon, time_gps)
-    if debug:print(colored("accel data is","yellow"))
-    if debug:print(colored(str(x),"yellow"))    
+    if len(boomY)>0:
+        tempAddY = boomY[0]
+        boomY.pop(0)
+    else:
+        tempAddY = 0
 
-    if debug:print(colored("getting adc data","green"))
-    # single ended adc
-    adc = AnalogIn(device_list.ads, ADS.P0)
-
-    # differential adc
-    # adc = AnalogIn(device_list.ads, ADS.P0, ADS.P1)
-
-    # if debug:print(colored("adc data is","yellow"))
-    # if debug:print(colored(str(adc.value), str(adc.voltage),"yellow"))        
-    
+    if len(boomZ)>0:
+        tempAddZ = boomZ[0]
+        boomZ.pop(0)
+    else:
+        tempAddZ = 0
 
 
-    accel = [
+    #globalXYZ.jump = jump
+    globalXYZ.boomX = boomX
+    globalXYZ.boomY = boomY
+    globalXYZ.boomZ = boomZ
+    data = [
         {
-            "name" : station_name,
+            "time": sample_time,
+            "x": x + random.random()/20 + tempAddX * .2,
+            "y": y + random.random()/20 + tempAddX *.5,
+            "z": z + random.random()/20 - tempAddX,
+            #            "crit": spike_chance,
             "packet_id": packet_id,
-            # "time":epoch_time,
-            "time":sample_time,
-            # "time_onboard": sample_time,
-            # "time_chk": str(sample_time),
-            "x": x,
-            "y": y,
-            "z": z,
-            "delta_time": execution_time,
-            "adc" : adc.voltage,
-            # "adc" : 0.
+            "delta_time":execution_time,
+            "name":"osnds_station_1"
         }
     ]
-    try:
-        accel = json.dumps(accel)  #MQTT requires data to be formatted into JSON
-    except:
-        if debug: print('error converting to json')       
-
-    try: # attempt to stream out data externally
-        # attaching the stream to a link thats associated with this station_number
-        mqtt_ext.publish("osnds/livestream/station/" + str(station_number) +"/acceleration/",accel,qos=0)  #publish the data to the remote mqtt server
-        # if the try hasnt failed, light the beacons
-        # streamingLED(True)  
-        if debug: print('successfully ext publishing')
-    except:
-        if debug: print("Unexpected error:", sys.exc_info()[0])
-        # no good, Gondor is on its own
-        # streamingLED(False)    
-        if debug: print('error with ext publishing')
-
-    # try: # attempt to stream out data internally
-    #     # attaching the stream to a link thats associated with this station_number
-    #     mqtt_int.publish("osnds/livestream/station/" + str(station_number) +"/acceleration/",accel,qos=0)  #publish the data to the remote mqtt server
-    #     # if the try hasnt failed, light the beacons
-    #     # streamingLED(True)  
-    #     if debug: print('successfully ext publishing')
-    # except:
-    #     if debug: print("Unexpected error:", sys.exc_info()[0])
-    #     # no good, Gondor is on its own
-    #     # streamingLED(False)    
-    #     if debug: print('error with int publishing')
+    msg = json.dumps(data)  #MQTT requires data to be formatted into JSON
+    #print(msg)
+    mqtt_int.publish("local/sensor/",msg,qos=0) #publish the data to the local mqtt server
+    mqtt_ext.publish("osnds/livestream/station/1/acceleration/",msg,qos=1)  #publish the data to the remote mqtt server
+    packet_id = packet_id + 1
+    if packet_id >= sps:
+     packet_id = 0
 
     execution_time = time.time_ns()- sample_time    #used for troubleshooting - measures the function's execution time
-    
-    # some packet ordering that resets every second
-    if packet_id == sps:
-        packet_id = 0
-        publishHealth()   
+
+def on_message(client, userdata, message):
+
+    global sample_rate
+    global settings_change
+
+    print("%s %s" % (message.topic, message.payload))
+
+    settings = json.loads(message.payload)
+    station = settings['station']
+
+    #mqtt_ext.publish("osnds/configuration/station",payload=None,qos=0)
+
+    if station != 2:
+
+        print("settings change not applicable")
+
     else:
-        packet_id = packet_id + 1
-    # print(time.time()-t)
-    print(adc.voltage)
-    # print(t)
-    try:
-        del t
-    except:
-        pass
-    try:
-        del sample_time
-    except:
-        pass
-    try: 
-        del x,y,z
-    except:
-        pass
-    try: 
-        del adc
-    except:
-        pass
-    try: 
-        del accel
-    except:
-        pass
-    # try: 
-    #     del execution_time
-    # except:
-    #     pass
-    
-def mem_tracker():
-    # print(chr(27) + "[2J")
-    all_objects = muppy.get_objects()
-    sum1 = summary.summarize(all_objects)
-    summary.print_(sum1)
 
-# def set_rtc_via_gps():
-#     if qwiicGPS.get_nmea_data() is True:
-#             lat, lon, time_gps = qwiicGPS.gnss_messages['Latitude'], qwiicGPS.gnss_messages['Longitude'], qwiicGPS.gnss_messages['Time']
-#     if time_gps != 0:
-#         timevar = time_gps
-#         rtc.set_time()
-# internal mqtt testing
-# TODO Scrap this?
+        sps = settings['sample_rate']
 
-def mqtt_startup():
-    global mqtt_ext, mqtt_int
-    # try:
-    #     mqtt_int = mqtt.Client(client_id=f'OSNDS Station {station_number}', userdata=None, transport="tcp")
-    #     mqtt_int.connect("127.0.0.1",port=1883,keepalive=45)
-    #     if debug: print(colored('Internal MQTT client connected successfully...','green'))
-    # except:
-    #     if debug: print(colored('Internal MQTT client failed to connect...','red'))
-    #     if debug: time.sleep(1)
-    # if debug: time.sleep(1)
+        if sps > 200 or sps < 1 or sps == (1/sample_rate):
+            print("Sample rate not supported or the same")
+        else:
+            sample_rate = round(1/sps,3)
+            print("Restarting sensor with new sample rate:",sps,"sps")
+            data = {}
+            data['settings'] = []
+            data['settings'].append({
+                'sample_rate': sps,
+            })
 
-    # the external MQTT connection is made here
-    try:
-        mqtt_ext = mqtt.Client(client_id=f'OSNDS Station {station_number}', userdata=None, transport="tcp")
-        mqtt_ext.username_pw_set(username="aftac", password="sensor")
-        context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-        mqtt_ext.tls_set_context(context)
-        #mqtt_ext.tls_set(ca_certs=None,certfile=None,keyfile=None,ciphers=None)
-        mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
-        mqtt_ext.subscribe("osnds/configuration/station",qos=2)
-        if debug: print(colored('External MQTT client connected successfully...','green'))
-        # a good connection was made so far
-    except:
-        if debug: print(colored('External MQTT client failed to connect...','red'))
-        # connection issue, do not light
-        if debug: time.sleep(1)
-    if debug: time.sleep(1)
+            file = 'settings.txt'
 
-    # try:
-    #     mqtt_ext2 = mqtt.Client(client_id=f'OSNDS Station {station_number}', userdata=None, transport="tcp")
-    #     mqtt_ext2.username_pw_set(username="aftac", password="sensor")
-    #     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-    #     mqtt_ext2.tls_set_context(context)
-    #     #mqtt_ext.tls_set(ca_certs=None,certfile=None,keyfile=None,ciphers=None)
-    #     mqtt_ext2.connect("mqtt.osnds.net",port=8883,keepalive=45)
-    #     mqtt_ext2.subscribe("osnds/configuration/station",qos=2)
-    #     if debug: print(colored('External MQTT client connected successfully...','green'))
-    #     # a good connection was made so far
-    # except:
-    #     if debug: print(colored('External MQTT client failed to connect...','red'))
-    #     # connection issue, do not light
-    #     if debug: time.sleep(1)
-    # if debug: time.sleep(1)
+            with open(file, 'w') as outfile:
+                json.dump(data, outfile)
+
+            mqtt_ext.loop_stop()
+            reactor.stop()
+            os.execv(sys.executable, ['python3'] + sys.argv) #working
+
+try:
+    mqtt_int = mqtt.Client(client_id="OSNDS Station 5", userdata=None, transport="tcp")
+    #mqtt_int.username_pw_set(username="aftac", password="sensor")
+    #mqttc.tls_set(ca_certs=None,certfile=None,keyfile=None,ciphers=None)
+    mqtt_int.connect("127.0.0.1",port=1883,keepalive=45)
+    print("Internal MQTT client connected successfully...")
+except:
+    print("Internal MQTT client failed to connect...")
+
+try:
+ #   pdb.set_trace()
+    mqtt_ext = mqtt.Client(client_id="OSNDS Station 1", userdata=None, transport="tcp")
+    mqtt_ext.username_pw_set(username="aftac", password="sensor")
+#    mqtt_ext.proxy_set(proxy_type=socks.HTTP, proxy_addr='https://10.150.206.21', proxy_port=8080)
+    # socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_HTTP, addr="10.150.206.21", port=8080, rdns=True)
+    # socket.socket = socks.socksocket
+    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+    mqtt_ext.tls_set_context(context)
+    #mqtt_ext.tls_set(ca_certs=None,certfile=None,keyfile=None,ciphers=None)
+    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+    mqtt_ext.subscribe("osnds/configuration/station",qos=2)
+    print("External MQTT client connected successfully...")
+except:
+    print("External MQTT client failed to connect...")
 
 
-#assign initial time to the RTC
-# ds3231.datetime = time.time()
-# print(ds3231)
-services_startup()
-mqtt_startup()
-
-# mqtt_ext.on_message= on_message
+mqtt_ext.on_message= on_message
 mqtt_ext.loop_start()
-if debug: time.sleep(1)
-accel_loop = task.LoopingCall(publishMessage)
-if debug: time.sleep(1)
-if debug: print('starting with sample rate',sample_rate)
-if debug: time.sleep(1)
-accel_loop.start(1 if debug else (sample_rate-0.0034))    #sets the sample rate (200 sps = 1/200 = 0.005 seconds)
-# accel_loop.start(0.001)    #sets the sample rate (200 sps = 1/200 = 0.005 seconds)
-
-
-
-# if debug: time.sleep(1)
-# health_loop = task.LoopingCall(publishHealth)
-# if debug: time.sleep(1)
-# if debug: print('starting with health report rate ', 1)
-# if debug: time.sleep(1)
-# health_loop.start(1)    #sets the sample rate (200 sps = 1/200 = 0.005 seconds)
-
-# if debug: time.sleep(1)
-# health__flag_loop = task.LoopingCall(set_health_flag)
-# if debug: time.sleep(1)
-# if debug: print('starting health__flag_loop ', 1)
-# if debug: time.sleep(1)
-# health__flag_loop.start(1)    #sets the sample rate (200 sps = 1/200 = 0.005 seconds)
-
-
-# task.LoopingCall(mem_tracker).start(60)
-
-task.LoopingCall(importConfig).start(1)
-if debug: time.sleep(1)
-if debug: print(colored('System is now online and publishing data...','green'))
-if debug: time.sleep(1)
+task.LoopingCall(publishMessage).start(sample_rate)    #sets the sample rate (200 sps = 1/200 = 0.005 seconds)
+print("System is now online and publishing data...")
 reactor.run()   #runs the function called in the argument of the LoopingCall
-print('code interrupted')
-# cleanupGPIO()
