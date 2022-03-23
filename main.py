@@ -40,10 +40,10 @@ execution_time = 0
 #   data = json.load(w)
 
 # sps = data['settings'][0]['sample_rate']
-sps = 200
+sps = 1
 print("Setting initial sample rate of",sps,"sps")
 sample_rate = 1/sps
-station_number = 5
+# station_number = 1
 
 
 if os.system('systemctl is-active telegraf --quiet') == 0:
@@ -197,8 +197,8 @@ def publishMessage():
     ]
     msg = json.dumps(data)  #MQTT requires data to be formatted into JSON
     #print(msg)
-    mqtt_int.publish("local/sensor/",msg,qos=0) #publish the data to the local mqtt server
-    mqtt_ext.publish("osnds/livestream/station/1/acceleration/",msg,qos=1)  #publish the data to the remote mqtt server
+    mqtt_int.publish("osnds", msg, qos=0) #publish the data to the local mqtt server
+    # mqtt_ext.publish("osnds/livestream/station/1/acceleration/",msg,qos=1)  #publish the data to the remote mqtt server
     packet_id = packet_id + 1
     if packet_id >= sps:
      packet_id = 0
@@ -246,33 +246,38 @@ def on_message(client, userdata, message):
             os.execv(sys.executable, ['python3'] + sys.argv) #working
 
 try:
-    mqtt_int = mqtt.Client(client_id="OSNDS Station 5", userdata=None, transport="tcp")
+    broker_address="198.47.75.50" 
+    #broker_address="iot.eclipse.org" #use external broker
+    # client = mqtt.Client("P1") #create new instance
+    mqtt_int = mqtt.Client(client_id=".GOV", userdata=None, transport="tcp")
+    mqtt_int.connect(broker_address, 1883, 60) #connect to broker
+
     #mqtt_int.username_pw_set(username="aftac", password="sensor")
     #mqttc.tls_set(ca_certs=None,certfile=None,keyfile=None,ciphers=None)
-    mqtt_int.connect("127.0.0.1",port=1883,keepalive=45)
-    print("Internal MQTT client connected successfully...")
+    # mqtt_int.connect("127.0.0.1",port=1883,keepalive=45)
+    print(".GOV MQTT client connected successfully...")
 except:
-    print("Internal MQTT client failed to connect...")
+    print(".GOV MQTT client failed to connect...")
 
-try:
- #   pdb.set_trace()
-    mqtt_ext = mqtt.Client(client_id="OSNDS Station 1", userdata=None, transport="tcp")
-    mqtt_ext.username_pw_set(username="aftac", password="sensor")
-#    mqtt_ext.proxy_set(proxy_type=socks.HTTP, proxy_addr='https://10.150.206.21', proxy_port=8080)
-    # socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_HTTP, addr="10.150.206.21", port=8080, rdns=True)
-    # socket.socket = socks.socksocket
-    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-    mqtt_ext.tls_set_context(context)
-    #mqtt_ext.tls_set(ca_certs=None,certfile=None,keyfile=None,ciphers=None)
-    mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
-    mqtt_ext.subscribe("osnds/configuration/station",qos=2)
-    print("External MQTT client connected successfully...")
-except:
-    print("External MQTT client failed to connect...")
+# try:
+#  #   pdb.set_trace()
+#     mqtt_ext = mqtt.Client(client_id="OSNDS Station 1", userdata=None, transport="tcp")
+#     mqtt_ext.username_pw_set(username="aftac", password="sensor")
+# #    mqtt_ext.proxy_set(proxy_type=socks.HTTP, proxy_addr='https://10.150.206.21', proxy_port=8080)
+#     # socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_HTTP, addr="10.150.206.21", port=8080, rdns=True)
+#     # socket.socket = socks.socksocket
+#     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+#     mqtt_ext.tls_set_context(context)
+#     #mqtt_ext.tls_set(ca_certs=None,certfile=None,keyfile=None,ciphers=None)
+#     mqtt_ext.connect("mqtt.osnds.net",port=8883,keepalive=45)
+#     mqtt_ext.subscribe("osnds/configuration/station",qos=2)
+#     print("External MQTT client connected successfully...")
+# except:
+#     print("External MQTT client failed to connect...")
 
 
-mqtt_ext.on_message= on_message
-mqtt_ext.loop_start()
+mqtt_int.on_message= on_message
+mqtt_int.loop_start()
 task.LoopingCall(publishMessage).start(sample_rate)    #sets the sample rate (200 sps = 1/200 = 0.005 seconds)
 print("System is now online and publishing data...")
 reactor.run()   #runs the function called in the argument of the LoopingCall

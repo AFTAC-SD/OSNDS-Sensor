@@ -5,13 +5,13 @@ FROM ubuntu:20.04
 # FROM nvcr.io/nvidia/l4t-base:r32.6.1
 ENV PATH="/root/miniconda3/bin:${PATH}"
 ARG PATH="/root/miniconda3/bin:${PATH}"
-#ENV https_proxy=http://10.150.206.21:8080
-#ENV http_proxy=http://10.150.206.21:8080
+ENV https_proxy=http://10.150.206.21:8080
+ENV http_proxy=http://10.150.206.21:8080
 
-#RUN touch /etc/apt/apt.conf
-#RUN echo "Acquire::http::Proxy \"http://10.150.206.21:8080\";" > /etc/apt/apt.conf
-# RUN export http_proxy=http://10.150.206.21:8080
-# RUN export https_proxy=http://10.150.206.21:8080
+RUN touch /etc/apt/apt.conf
+RUN echo "Acquire::http::Proxy \"http://10.150.206.21:8080\";" > /etc/apt/apt.conf
+RUN export http_proxy=http://10.150.206.21:8080
+RUN export https_proxy=http://10.150.206.21:8080
 RUN apt-get update
 WORKDIR /app
 RUN apt-get install -y vim
